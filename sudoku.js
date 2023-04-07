@@ -143,7 +143,7 @@ function GenerateBoard(cur_row, cur_col){
 }
 
 function Reveal_cell(){
-    var reveal_number = rng(23, 30);
+    var reveal_number = rng(25, 30);
     score = reveal_number;
     let arr = [];
     for(var i = 1; i <= board.row; i++){
