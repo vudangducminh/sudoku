@@ -1,0 +1,47 @@
+body {
+    background-color: green;
+}
+#design {
+    text-align: center;
+}
+
+#BoardSudoku table {
+    border-collapse: collapse;
+    font-size: 150%;
+    font-family: sans-serif;
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+#BoardSudoku table td {
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+}
+#SudokuSolution table {
+    border-collapse: collapse;
+    font-size: 150%;
+    font-family: sans-serif;
+    font-weight: bold;
+    display: inline-block;
+}
+
+
+#SudokuSolution table td {
+    background-color: white;
+    width: 40px;
+    height: 40px;
+    border: 1px solid black;
+}
+
+button {
+    width: 120px;
+    height: 30px;
+    background-color:white;
+    color: black;
+    font-weight: bolder;
+    border-radius: 20px 20px 20px 20px;
+}
+
