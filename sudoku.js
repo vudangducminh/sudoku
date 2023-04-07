@@ -203,29 +203,45 @@ function erase(row, col){
 
 function init(){
     var table = document.createElement('table');
-    for(var i = 1; i <= board.row; i++){
-        var row = document.createElement('tr');
-        for(var j = 1; j <= board.col; j++){
-            var cell = document.createElement('td');
-            cell.id = hash(i, j);
-            cell.textContent = '';
-            addCellListener(cell, i, j);
-            row.appendChild(cell);
+    for(var x = 1; x <= board.row; x += board.big_cell_size){
+        var big_row = document.createElement('tr');
+        for(var y = 1; y <= board.col; y += board.big_cell_size){
+            var big_cell = document.createElement('td');
+            for(var i = x; i <= x + board.big_cell_size - 1; i++){
+                var row = document.createElement('tr');
+                for(var j = y; j <= y + board.big_cell_size - 1; j++){
+                    var cell = document.createElement('td');
+                    cell.id = hash(i, j);
+                    cell.textContent = '';
+                    addCellListener(cell, i, j);
+                    row.appendChild(cell);
+                }
+                big_cell.appendChild(row);
+            }
+            big_row.appendChild(big_cell);
         }
-        table.appendChild(row);
+        table.appendChild(big_row);
     } 
     document.getElementById('BoardSudoku').appendChild(table);
     var sol = document.createElement('table');
-    for(var i = 1; i <= board.row; i++){
-        var row = document.createElement('tr');
-        for(var j = 1; j <= board.col; j++){
-            var cell = document.createElement('td');
-            cell.id = hash(i + board.row, j);
-            cell.textContent = '';
-            row.appendChild(cell);
+    for(var x = 1; x <= board.row; x += board.big_cell_size){
+        var big_row = document.createElement('tr');
+        for(var y = 1; y <= board.col; y += board.big_cell_size){
+            var big_cell = document.createElement('td');
+            for(var i = x; i <= x + board.big_cell_size - 1; i++){
+                var row = document.createElement('tr');
+                for(var j = y; j <= y + board.big_cell_size - 1; j++){
+                    var cell = document.createElement('td');
+                    cell.id = hash(i + board.row, j);
+                    cell.textContent = '';
+                    row.appendChild(cell);
+                }
+                big_cell.appendChild(row);
+            }
+            big_row.appendChild(big_cell);
         }
-        sol.appendChild(row);
-    } 
+        sol.appendChild(big_row);
+    }
     // document.getElementById('SudokuSolution').appendChild(sol);
     var osu = GenerateBoard(1, 1);
     Reveal_cell();
