@@ -201,6 +201,22 @@ function erase(row, col){
     update_state(); 
 }
 
+function highlight(row, col){
+    for(var i = 1; i <= board.row; i++){
+        for(var j = 1; j <= board.col; j++){
+            let cell = document.getElementById(hash(i, j));
+            cell.style.backgroundColor = "white";
+        }
+    }
+    for(var i = 1; i <= board.row; i++){
+        for(var j = 1; j <= board.col; j++){
+            if(reveal[i][j] == reveal[row][col]){
+                let cell = document.getElementById(hash(i, j));
+                cell.style.backgroundColor = "lightblue";
+            }
+        }
+    }
+}
 function init(){
     var table = document.createElement('table');
     for(var x = 1; x <= board.row; x += board.big_cell_size){
@@ -250,6 +266,7 @@ function init(){
 function addCellListener(cell, row, col){
 	cell.addEventListener('mousedown', function(event){
         if(event.which == 1){
+            if(reveal[row][col]) highlight(row, col);
             document.onkeydown = (e) => {
                 e = e || window.event;
                 if(e.keyCode == 8) erase(row, col);
