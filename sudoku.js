@@ -16,12 +16,14 @@ function hash(i, j){
 
 let state = new Array(board.row + 1);
 let reveal = new Array(board.row + 1);
+let start_board = new Array(board.row + 1);
 let valid = new Array(board.row + 1);
 var score = 0;
 
 for(var i = 1; i <= board.row; i++){
     state[i] = new Array(board.col + 1).fill(0);
     reveal[i] = new Array(board.col + 1).fill(0);
+    start_board[i] = new Array(board.col + 1).fill(0);
     valid[i] = new Array(board.col + 1);
     for(var j = 1; j <= board.col; j++){
         valid[i][j] = new Array(board.num + 1).fill(1);
@@ -79,6 +81,54 @@ function update_valid_number(row, col, number){
     for(var i = (row - 1) * board.big_cell_size + 1; i <= row * board.big_cell_size; i++){
         for(var j = (col - 1) * board.big_cell_size + 1; j <= col * board.big_cell_size; j++){
             valid[i][j][number] = 0;
+        }
+    }
+}
+
+function update_color(){
+    for(var i = 1; i <= board.row; i++){
+        for(var j = 1; j <= board.col; j++){
+            let cell = document.getElementById(hash(i, j));
+            if(!start_board[i][j]) cell.style.color = "blue";
+            else cell.style.color = "black";
+        }
+    }
+    for(var x = 1; x <= board.row; x += board.big_cell_size){
+        for(var y = 1; y <= board.col; y += board.big_cell_size){
+            for(var i_1 = x; i_1 <= x + board.big_cell_size - 1; i_1++){
+                for(var j_1 = y; j_1 <= y + board.big_cell_size - 1; j_1++){
+                    if(!reveal[i_1][j_1]) continue;
+                    for(var i_2 = x; i_2 <= x + board.big_cell_size - 1; i_2++){
+                        for(var j_2 = y; j_2 <= y + board.big_cell_size - 1; j_2++){
+                            if(!reveal[i_2][j_2]) continue;
+                            if((i_1 == i_2) && (j_1 == j_2)) continue;
+                            if(reveal[i_1][j_1] == reveal[i_2][j_2]){
+                                let cell_1 = document.getElementById(hash(i_1, j_1));
+                                let cell_2 = document.getElementById(hash(i_2, j_2));
+                                cell_1.style.color = cell_2.style.color = "red";
+                            }
+                        }
+                    }
+                    for(var row = 1; row <= board.row; row++){
+                        if(!reveal[row][j_1]) continue;
+                        if(row == i_1) continue;
+                        if(reveal[i_1][j_1] == reveal[row][j_1]){
+                            let cell_1 = document.getElementById(hash(i_1, j_1));
+                            let cell_2 = document.getElementById(hash(row, j_1));
+                            cell_1.style.color = cell_2.style.color = "red";
+                        }
+                    }
+                    for(var col = 1; col <= board.col; col++){
+                        if(!reveal[i_1][col]) continue;
+                        if(col == j_1) continue;
+                        if(reveal[i_1][j_1] == reveal[i_1][col]){
+                            let cell_1 = document.getElementById(hash(i_1, j_1));
+                            let cell_2 = document.getElementById(hash(i_1, col));
+                            cell_1.style.color = cell_2.style.color = "red";
+                        }
+                    }
+                }
+            }
         }
     }
 }
@@ -156,7 +206,7 @@ function Reveal_cell(){
         let cell = document.getElementById(arr[i]);
         var cell_row = Math.floor((arr[i] - 1) / board.col) + 1, cell_col = arr[i] % board.col;
         if(!cell_col) cell_col = board.col; 
-        reveal[cell_row][cell_col] = state[cell_row][cell_col];
+        start_board[cell_row][cell_col] = reveal[cell_row][cell_col] = state[cell_row][cell_col];
         cell.textContent = reveal[cell_row][cell_col];
         cell.style.color = "black";
         update_valid_number(cell_row, cell_col, reveal[cell_row][cell_col]);
@@ -167,16 +217,10 @@ function fill(row, col, num){
     if(reveal[row][col]) return;
     score++;
     reveal[row][col] = num;
-    if(!valid[row][col][num]){
-        let cell = document.getElementById(hash(row, col));
-        cell.textContent = reveal[row][col];
-        cell.style.color = "red"; 
-    }
-    else{
-        let cell = document.getElementById(hash(row, col));
-        cell.textContent = reveal[row][col];
-        cell.style.color = "blue"; 
-    }
+    let cell = document.getElementById(hash(row, col));
+    cell.textContent = reveal[row][col];
+    cell.style.color = "blue"; 
+    update_color();
     for(var i = 1; i <= board.num; i++){
         valid[i][col][num] = 0;
         valid[row][i][num] = 0;
@@ -192,9 +236,11 @@ function fill(row, col, num){
 }
 
 function erase(row, col){
+    if(start_board[row][col]) return;
     if(!reveal[row][col]) return;
     score--;
     reveal[row][col] = 0;
+    update_color();
     let cell = document.getElementById(hash(row, col));
     cell.textContent = "";
     cell.style.color = "";
