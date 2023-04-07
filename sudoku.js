@@ -224,13 +224,14 @@ function Reveal_cell(){
 }
 
 function fill(row, col, num){
-    if(reveal[row][col]) return;
-    score++;
+    if(start_board[row][col]) return;
+    if(!reveal[row][col]) score++;
     reveal[row][col] = num;
     let cell = document.getElementById(hash(row, col));
     cell.textContent = reveal[row][col];
     cell.style.color = "blue"; 
     update_color();
+    update_state(); 
     for(var i = 1; i <= board.num; i++){
         valid[i][col][num] = 0;
         valid[row][i][num] = 0;
