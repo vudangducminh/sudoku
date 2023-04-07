@@ -105,7 +105,10 @@ function update_color(){
                             if(reveal[i_1][j_1] == reveal[i_2][j_2]){
                                 let cell_1 = document.getElementById(hash(i_1, j_1));
                                 let cell_2 = document.getElementById(hash(i_2, j_2));
-                                cell_1.style.color = cell_2.style.color = "red";
+                                if(!start_board[i_1][j_1]) cell_1.style.color = "red";
+                                else cell_1.style.backgroundColor = "red";
+                                if(!start_board[i_2][j_2]) cell_2.style.color = "red";
+                                else cell_2.style.backgroundColor = "red";
                             }
                         }
                     }
@@ -115,7 +118,10 @@ function update_color(){
                         if(reveal[i_1][j_1] == reveal[row][j_1]){
                             let cell_1 = document.getElementById(hash(i_1, j_1));
                             let cell_2 = document.getElementById(hash(row, j_1));
-                            cell_1.style.color = cell_2.style.color = "red";
+                            if(!start_board[i_1][j_1]) cell_1.style.color = "red";
+                            else cell_1.style.backgroundColor = "red";
+                            if(!start_board[row][j_1]) cell_2.style.color = "red";
+                            else cell_2.style.backgroundColor = "red";
                         }
                     }
                     for(var col = 1; col <= board.col; col++){
@@ -124,7 +130,10 @@ function update_color(){
                         if(reveal[i_1][j_1] == reveal[i_1][col]){
                             let cell_1 = document.getElementById(hash(i_1, j_1));
                             let cell_2 = document.getElementById(hash(i_1, col));
-                            cell_1.style.color = cell_2.style.color = "red";
+                            if(!start_board[i_1][j_1]) cell_1.style.color = "red";
+                            else cell_1.style.backgroundColor = "red";
+                            if(!start_board[i_1][col]) cell_2.style.color = "red";
+                            else cell_2.style.backgroundColor = "red";
                         }
                     }
                 }
