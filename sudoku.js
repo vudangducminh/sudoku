@@ -208,6 +208,11 @@ function highlight(row, col){
             cell.style.backgroundColor = "white";
         }
     }
+    if(!reveal[row][col]){
+        let cell = document.getElementById(hash(row, col));
+        cell.style.backgroundColor = "lightblue";
+        return;
+    }
     for(var i = 1; i <= board.row; i++){
         for(var j = 1; j <= board.col; j++){
             if(reveal[i][j] == reveal[row][col]){
@@ -266,7 +271,7 @@ function init(){
 function addCellListener(cell, row, col){
 	cell.addEventListener('mousedown', function(event){
         if(event.which == 1){
-            if(reveal[row][col]) highlight(row, col);
+            highlight(row, col);
             document.onkeydown = (e) => {
                 e = e || window.event;
                 if(e.keyCode == 8) erase(row, col);
@@ -287,4 +292,3 @@ window.addEventListener('load', function(){
 function newgame(){
 	window.location.reload();
 }
-
