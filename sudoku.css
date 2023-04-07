@@ -11,25 +11,46 @@ body {
     font-family: sans-serif;
     font-weight: bold;
     display: inline-block;
+    border: 2px solid black;
+}
+
+#BoardSudoku table td {
+    border-collapse: collapse;
+    font-size: 125%;
+    font-family: sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    border: 2px solid black;
 }
 
 
-#BoardSudoku table td {
+#BoardSudoku table td td{
     background-color: white;
     width: 40px;
     height: 40px;
     border: 1px solid black;
 }
+
 #SudokuSolution table {
     border-collapse: collapse;
     font-size: 150%;
     font-family: sans-serif;
     font-weight: bold;
     display: inline-block;
+    border: 2px solid black;
+}
+
+#SudokuSolution table td {
+    border-collapse: collapse;
+    font-size: 125%;
+    font-family: sans-serif;
+    font-weight: bold;
+    display: inline-block;
+    border: 2px solid black;
 }
 
 
-#SudokuSolution table td {
+#SudokuSolution table td td{
     background-color: white;
     width: 40px;
     height: 40px;
