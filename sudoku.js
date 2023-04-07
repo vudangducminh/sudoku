@@ -91,6 +91,7 @@ function update_color(){
             let cell = document.getElementById(hash(i, j));
             if(!start_board[i][j]) cell.style.color = "blue";
             else cell.style.color = "black";
+            cell.style.backgroundColor = "white";
         }
     }
     for(var x = 1; x <= board.row; x += board.big_cell_size){
