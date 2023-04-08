@@ -1,3 +1,6 @@
+const gameBoard = document.getElementById('BoardSudoku');
+const solBoard = document.getElementById('SudokuSolution');
+
 var board = {
     row: 9,
     col: 9,
@@ -18,7 +21,7 @@ let state = new Array(board.row + 1);
 let reveal = new Array(board.row + 1);
 let start_board = new Array(board.row + 1);
 let valid = new Array(board.row + 1);
-var score = 0;
+var score = 0, min_reveal_number = 24, max_reveal_number = 38;
 
 for(var i = 1; i <= board.row; i++){
     state[i] = new Array(board.col + 1).fill(0);
@@ -30,6 +33,21 @@ for(var i = 1; i <= board.row; i++){
     }
 }
 
+function reset_all(mode){
+    score = 0; 
+    if(mode == 3) mode = rng(0, 2);
+    if(mode == 0) min_reveal_number = 33, max_reveal_number = 38;
+    if(mode == 1) min_reveal_number = 28, max_reveal_number = 32;
+    if(mode == 2) min_reveal_number = 24, max_reveal_number = 27;
+    for(var i = 1; i <= board.row; i++){
+        for(var j = 1; j <= board.col; j++){
+            state[i][j] = reveal[i][j] = start_board[i][j] = 0;
+            for(var k = 1; k <= board.num; k++){
+                valid[i][j][k] = 1;
+            }
+        }
+    }
+}
 
 function Big_cell(x){
     return Math.floor((x - 1) / board.big_cell_size) + 1;
@@ -84,6 +102,7 @@ function update_valid_number(row, col, number){
         }
     }
 }
+
 
 function update_color(){
     for(var i = 1; i <= board.row; i++){
@@ -203,7 +222,10 @@ function GenerateBoard(cur_row, cur_col){
 }
 
 function Reveal_cell(){
-    var reveal_number = rng(25, 30);
+    // document.writeln(min_reveal_number);
+    // document.writeln(max_reveal_number);
+    var reveal_number = rng(min_reveal_number, max_reveal_number);
+    // document.writeln(reveal_number);
     score = reveal_number;
     let arr = [];
     for(var i = 1; i <= board.row; i++){
@@ -286,7 +308,10 @@ function highlight(row, col){
         }
     }
 }
-function init(){
+function init(mode){
+	gameBoard.innerHTML = '';
+	solBoard.innerHTML = '';
+    reset_all(mode);
     var table = document.createElement('table');
     for(var x = 1; x <= board.row; x += board.big_cell_size){
         var big_row = document.createElement('tr');
@@ -307,7 +332,7 @@ function init(){
         }
         table.appendChild(big_row);
     } 
-    document.getElementById('BoardSudoku').appendChild(table);
+    gameBoard.appendChild(table);
     var sol = document.createElement('table');
     for(var x = 1; x <= board.row; x += board.big_cell_size){
         var big_row = document.createElement('tr');
@@ -327,7 +352,7 @@ function init(){
         }
         sol.appendChild(big_row);
     }
-    // document.getElementById('SudokuSolution').appendChild(sol);
+    // solBoard.appendChild(sol);
     var osu = GenerateBoard(1, 1);
     Reveal_cell();
 }
@@ -349,10 +374,8 @@ function win(){
     if(score < board.row * board.col) return;
     if(is_valid(reveal)) alert("Luck?");
 }
-window.addEventListener('load', function(){
-    init();
-});
 
-function newgame(){
-	window.location.reload();
-}
+
+window.addEventListener('load', function(){
+    init(3); 
+});
