@@ -11,10 +11,13 @@
     </head>
     <body>
         <div id = "design">
-            <button type = "button" onclick = "newgame()"> New game! </button>
-            <div id = "BoardSudoku"> </div>  
-            <div id = "SudokuSolution"> </div>  
+            <button type = "button" onclick = "init(0)"> Easy </button>
+            <button type = "button" onclick = "init(1)"> Normal </button>
+            <button type = "button" onclick = "init(2)"> Hard </button>
+            <button type = "button" onclick = "init(3)"> Random mode </button>
         </div>
+        <div id = "BoardSudoku"> </div>  
+        <div id = "SudokuSolution"> </div>  
     </body>
     <script src="sudoku.js"> </script>
 </html>
